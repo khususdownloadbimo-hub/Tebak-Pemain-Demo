@@ -1,0 +1,1144 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09111f">
+  <title>Trisula Maut — Tebak Pemain Sepakbola</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand-dot"></span>
+    <span>TRISULA MAUT</span>
+  </header>
+
+  <main>
+    <!-- HALAMAN PEMBUKA -->
+    <section id="home" class="screen active">
+      <div class="center">
+        <div class="panel hero">
+          <div class="logo">🔱</div>
+          <p class="brand-label">TRISULA MAUT</p>
+          <h1>Tebak Pemain Sepakbola</h1>
+          <p id="homeDescription">
+            Baca petunjuk, tebak pemainnya, dan kumpulkan bintang!
+          </p>
+          <div class="button-row">
+            <button class="btn primary" onclick="go('language')">Yok!</button>
+            <button class="btn" onclick="showNotPlaying()">Gak Mau</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILIH BAHASA -->
+    <section id="language" class="screen">
+      <div class="center">
+        <div class="panel hero">
+          <div class="logo">🌐</div>
+          <h1>Pilih Bahasa</h1>
+          <p>Choose your language</p>
+          <div class="button-row">
+            <button class="btn primary" onclick="setLang('id')">
+              Bahasa Indonesia
+            </button>
+            <button class="btn" onclick="setLang('en')">
+              English
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILIH BAGIAN -->
+    <section id="parts" class="screen">
+      <div class="page-heading">
+        <div>
+          <span class="pill">TRISULA MAUT</span>
+          <h1 id="partsTitle">Pilih Bagian</h1>
+          <p id="partsSubtitle">Pilih bagian permainan yang ingin kamu mainkan.</p>
+        </div>
+        <button class="btn" onclick="go('language')" id="partsBack">← Kembali</button>
+      </div>
+      <div id="partsGrid" class="parts-grid"></div>
+    </section>
+
+    <!-- PILIH LEVEL -->
+    <section id="levels" class="screen">
+      <div class="page-heading">
+        <div>
+          <span class="pill" id="partLabel">BAGIAN 1</span>
+          <h1 id="levelsTitle">Pilih Level</h1>
+          <p id="levelsSubtitle">Kumpulkan bintang untuk membuka level berikutnya.</p>
+        </div>
+        <button class="btn" onclick="go('parts')" id="levelsBack">← Bagian</button>
+      </div>
+      <div id="levelsGrid" class="levels-grid"></div>
+    </section>
+
+    <!-- DAFTAR PERTANYAAN -->
+    <section id="questions" class="screen">
+      <div class="page-heading">
+        <div>
+          <span class="pill" id="questionsLevelLabel">BAGIAN 1 · LEVEL 1</span>
+          <h1 id="questionsTitle">Daftar Pertanyaan</h1>
+          <p id="questionsSubtitle">
+            Pilih pertanyaan yang ingin kamu mainkan.
+          </p>
+        </div>
+        <button class="btn" onclick="go('levels')" id="questionsBack">
+          ← Kembali ke Level
+        </button>
+      </div>
+      <div class="level-progress">
+        <div>
+          <span id="progressLabel">Bintang level</span>
+          <strong id="progressStars">⭐ 0 / 9</strong>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <p id="progressTarget">Target membuka level berikutnya: 5 bintang</p>
+      </div>
+      <div id="questionsGrid" class="questions-grid"></div>
+    </section>
+
+    <!-- PERMAINAN -->
+    <section id="game" class="screen">
+      <div class="game-header">
+        <span class="pill" id="gameLabel">BAGIAN 1 · LEVEL 1</span>
+        <span class="question-counter" id="questionNo">Pertanyaan 1 / 3</span>
+      </div>
+
+      <div class="game-layout">
+        <section class="panel clue-panel">
+          <div class="panel-heading">
+            <h2 id="clueTitle">Petunjuk</h2>
+            <span class="counter" id="clueCounter">0 / 9</span>
+          </div>
+          <p class="muted small" id="clueHelp">
+            Pilih kotak untuk membuka petunjuk.
+          </p>
+          <div id="gameClues" class="clue-grid"></div>
+        </section>
+
+        <section class="panel answer-panel">
+          <h1 id="answerTitle">Siapa Pemain Ini?</h1>
+          <p id="answerSubtitle">Baca petunjuk dan tebak pemainnya.</p>
+
+          <div class="status-grid">
+            <div class="status-card">
+              <span id="livesLabel">Nyawa</span>
+              <strong id="livesDisplay">❤️ ❤️ ❤️</strong>
+            </div>
+            <div class="status-card">
+              <span id="starsLabel">Bintang</span>
+              <strong id="starsDisplay">⭐ 0</strong>
+            </div>
+          </div>
+
+          <form id="answerForm">
+            <label class="input-label" for="answerInput" id="nameLabel">
+              Nama pemain
+            </label>
+            <input
+              id="answerInput"
+              class="answer-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Ketik nama pemain..."
+            >
+            <div class="action-buttons">
+              <button class="btn primary" id="checkBtn" type="submit">
+                Periksa Jawaban
+              </button>
+              <button class="btn" id="nextClueBtn" type="button">
+                Petunjuk Berikutnya
+              </button>
+              <button class="btn gold" id="bonusBtn" type="button">
+                🌍 Petunjuk Bonus 1 (-1 nyawa)
+              </button>
+              <button class="btn gold" id="bonus2Btn" type="button">
+                💡 Petunjuk Bonus 2 (-1 nyawa)
+              </button>
+            </div>
+          </form>
+          <p id="feedback" class="feedback" aria-live="polite"></p>
+        </section>
+      </div>
+
+      <button class="btn back-button" id="backToQuestions">
+        ← Kembali ke Daftar Pertanyaan
+      </button>
+    </section>
+  </main>
+
+  <!-- EFEK KONFETI SATU LAYAR -->
+  <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+
+  <!-- EFEK SERANGAN / NYAWA BERKURANG -->
+  <div id="damageFlash" class="damage-flash" aria-hidden="true"></div>
+
+  <!-- MODAL JAWABAN BENAR -->
+  <div id="winModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-icon">🎉</div>
+      <h2 id="winTitle">Kamu benar!</h2>
+      <p id="winDescription">Jawaban yang benar adalah:</p>
+      <div id="winName" class="winner-name"></div>
+      <div class="earned-stars" id="earnedStars">⭐ 3 bintang</div>
+      <button class="btn primary full-width" id="continueBtn">
+        Kembali ke Daftar Pertanyaan
+      </button>
+    </div>
+  </div>
+
+  <!-- NOTIFIKASI -->
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    'use strict';
+
+    const $ = id => document.getElementById(id);
+
+    const state = {
+      lang: 'id',
+      part: 1,
+      level: 1,
+      questionIndex: 0,
+      player: null,
+      lives: 3,
+      used: [],
+      stars: 0,
+      bonusUsed: [false, false],
+      answered: false,
+      database: {},
+      databaseReady: false,
+      databaseError: '',
+      questions: {},
+      levelStars: {},
+      bestStars: {},
+      unlocked: { 1: true },
+      toastTimer: null
+    };
+
+    const TEXT = {
+      id: {
+        parts: 'Pilih Bagian',
+        partsSub: 'Pilih bagian permainan yang ingin kamu mainkan.',
+        levels: 'Pilih Level',
+        levelsSub: 'Kumpulkan bintang untuk membuka level berikutnya.',
+        questions: 'Daftar Pertanyaan',
+        questionsSub: 'Pilih pertanyaan yang ingin kamu mainkan.',
+        back: 'Kembali',
+        backLevels: 'Kembali ke Level',
+        part: 'Bagian',
+        level: 'Level',
+        question: 'Pertanyaan',
+        clues: 'Petunjuk',
+        clueHelp: 'Pilih kotak untuk membuka petunjuk.',
+        who: 'Siapa Pemain Ini?',
+        answerSub: 'Baca petunjuk dan tebak pemainnya.',
+        lives: 'Nyawa',
+        stars: 'Bintang',
+        name: 'Nama pemain',
+        placeholder: 'Ketik nama pemain...',
+        check: 'Periksa Jawaban',
+        nextClue: 'Petunjuk Berikutnya',
+        bonus: '🌍 Petunjuk Bonus (-1 nyawa)',
+        empty: 'Masukkan nama pemain terlebih dahulu.',
+        wrong: 'Belum tepat. Coba lagi!',
+        noClues: 'Semua petunjuk utama sudah dibuka.',
+        correct: 'Kamu benar!',
+        correctDescription: 'Jawaban yang benar adalah:',
+        continue: 'Kembali ke Daftar Pertanyaan',
+        available: 'Tersedia',
+        locked: 'Terkunci',
+        completed: 'Selesai',
+        notPlayed: 'Belum dimainkan',
+        retry: 'Perlu dimainkan ulang',
+        starsLevel: 'Bintang level',
+        target: 'Target membuka level berikutnya',
+        lastLevel: 'Level terakhir demo',
+        dbError: 'Database gagal dimuat. Pastikan players.json berada di folder yang sama dan game dijalankan melalui server lokal.',
+        tooFew: 'Level ini membutuhkan minimal 3 kandidat pemain di players.json.',
+        noCountry: 'Negara pemain tidak tersedia.',
+        bonusCountry: 'Negara',
+        livesRestored: 'Nyawa kembali menjadi 3.',
+        lockedReason: 'Pertanyaan ini terkunci karena nyawa habis. Pilih untuk mengulangnya.',
+        needStars: 'Bintang belum cukup untuk membuka level berikutnya.',
+        congratulations: 'Semua pertanyaan level ini sudah selesai!',
+        questionLocked: 'Pertanyaan terkunci',
+        tryAgain: 'Coba lagi',
+        start: 'Mulai',
+        notPlaying: 'Yah, coba main dulu, ya! 😄'
+      },
+      en: {
+        parts: 'Choose a Part',
+        partsSub: 'Choose the part of the game you want to play.',
+        levels: 'Choose a Level',
+        levelsSub: 'Collect stars to unlock the next level.',
+        questions: 'Question List',
+        questionsSub: 'Choose a question to play.',
+        back: 'Back',
+        backLevels: 'Back to Levels',
+        part: 'Part',
+        level: 'Level',
+        question: 'Question',
+        clues: 'Clues',
+        clueHelp: 'Choose a box to reveal a clue.',
+        who: 'Who Is This Player?',
+        answerSub: 'Read the clues and guess the player.',
+        lives: 'Lives',
+        stars: 'Stars',
+        name: 'Player name',
+        placeholder: 'Type a player name...',
+        check: 'Check Answer',
+        nextClue: 'Next Clue',
+        bonus: '🌍 Bonus Clue (-1 life)',
+        empty: 'Enter a player name first.',
+        wrong: 'Not quite. Try again!',
+        noClues: 'All main clues have been revealed.',
+        correct: 'Correct!',
+        correctDescription: 'The correct answer is:',
+        continue: 'Back to Question List',
+        available: 'Available',
+        locked: 'Locked',
+        completed: 'Completed',
+        notPlayed: 'Not played yet',
+        retry: 'Replay required',
+        starsLevel: 'Level stars',
+        target: 'Stars needed for next level',
+        lastLevel: 'Last demo level',
+        dbError: 'Could not load database. Make sure players.json is in the same folder and run the game through a local server.',
+        tooFew: 'This level needs at least 3 player candidates in players.json.',
+        noCountry: 'Player country is unavailable.',
+        bonusCountry: 'Country',
+        livesRestored: 'Lives restored to 3.',
+        lockedReason: 'This question is locked because you ran out of lives. Select it to replay.',
+        needStars: 'Not enough stars to unlock the next level.',
+        congratulations: 'All questions in this level are complete!',
+        questionLocked: 'Question locked',
+        tryAgain: 'Try again',
+        start: 'Start',
+        notPlaying: 'Give it a try first! 😄'
+      }
+    };
+
+    const t = key => TEXT[state.lang][key] || key;
+    const currentRecords = () => state.questions[state.level] || [];
+
+    function showNotPlaying() {
+      notify(t('notPlaying'));
+    }
+
+    function notify(message) {
+      const toast = $('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(state.toastTimer);
+      state.toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    function go(screenId) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      $(screenId).classList.add('active');
+
+      if (screenId === 'parts') renderParts();
+      if (screenId === 'levels') renderLevels();
+      if (screenId === 'questions') renderQuestions();
+    }
+
+    async function setLang(language) {
+      state.lang = language;
+      document.documentElement.lang = language;
+
+      try {
+        await loadDatabase();
+        go('parts');
+      } catch (error) {
+        notify(t('dbError'));
+      }
+    }
+
+    async function loadDatabase() {
+      if (state.databaseReady) return state.database;
+
+      try {
+        const response = await fetch('./players.json', { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        state.database = normalizeDatabase(data);
+        state.databaseReady = true;
+        state.databaseError = '';
+        return state.database;
+      } catch (error) {
+        state.databaseError = error.message;
+        console.error('Gagal memuat players.json:', error);
+        throw error;
+      }
+    }
+
+    function normalizeDatabase(data) {
+      // Mendukung format {"1":[...],"2":[...]} atau {"players":[...]}.
+      if (Array.isArray(data)) {
+        return groupPlayersByLevel(data);
+      }
+
+      if (Array.isArray(data.players)) {
+        return groupPlayersByLevel(data.players);
+      }
+
+      const grouped = {};
+
+      for (const key of Object.keys(data)) {
+        const list = data[key];
+        if (Array.isArray(list)) {
+          grouped[String(key).replace(/^level[_\s-]*/i, '')] =
+            list.map(normalizePlayer);
+        }
+      }
+
+      return grouped;
+    }
+
+    function groupPlayersByLevel(players) {
+      const result = {};
+      for (const source of players) {
+        const key = String(source.level ?? 1);
+        if (!result[key]) result[key] = [];
+        result[key].push(normalizePlayer(source));
+      }
+      return result;
+    }
+
+    function normalizePlayer(source) {
+      const aliases = Array.isArray(source.aliases)
+        ? source.aliases
+        : String(source.aliases || '')
+            .split(';')
+            .map(value => value.trim())
+            .filter(Boolean);
+
+      const cluesId = Array.isArray(source.clues_id)
+        ? source.clues_id
+        : Array.from({ length: 12 }, (_, i) =>
+            source[`clue${i + 1}_id`] || ''
+          ).filter(Boolean);
+
+      const cluesEn = Array.isArray(source.clues_en)
+        ? source.clues_en
+        : Array.from({ length: 12 }, (_, i) =>
+            source[`clue${i + 1}_en`] || ''
+          ).filter(Boolean);
+
+      return {
+        ...source,
+        name: source.name || source.nama_pemain || '',
+        answer_name: source.answer_name || source.answerName || '',
+        aliases,
+        country: source.country || source.bonus_country || '',
+        clues_id: cluesId,
+        clues_en: cluesEn
+      };
+    }
+
+    function playerClues(source) {
+      const clues = state.lang === 'en'
+        ? source.clues_en
+        : source.clues_id;
+
+      return (clues || []).filter(value =>
+        String(value || '').trim() !== ''
+      );
+    }
+
+    function preparePlayer(source) {
+      return {
+        ...source,
+        clues: playerClues(source)
+      };
+    }
+
+    function renderParts() {
+      $('partsTitle').textContent = t('parts');
+      $('partsSubtitle').textContent = t('partsSub');
+      $('partsBack').textContent = `← ${t('back')}`;
+
+      $('partsGrid').innerHTML = [1, 2, 3].map(number => {
+        const available = number === 1;
+        return `
+          <button class="part-card ${available ? '' : 'is-locked'}"
+                  ${available ? 'onclick="choosePart(1)"' : 'disabled'}>
+            <span class="part-number">0${number}</span>
+            <span class="part-card-info">
+              <strong>${t('part')} ${number}</strong>
+              <small>${available ? t('available') : '🔒 ' + t('locked')}</small>
+            </span>
+            <span class="part-arrow">${available ? '→' : '🔒'}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function choosePart(number) {
+      if (number !== 1) return;
+      state.part = 1;
+      go('levels');
+    }
+
+    function targetStars(level) {
+      return ({ 1: 5, 2: 6, 3: 7, 4: 0 })[level] ?? 0;
+    }
+
+    function isLevelUnlocked(number) {
+      return number === 1 || Boolean(state.unlocked[number]);
+    }
+
+    function renderLevels() {
+      $('partLabel').textContent = `${t('part').toUpperCase()} ${state.part}`;
+      $('levelsTitle').textContent = t('levels');
+      $('levelsSubtitle').textContent = t('levelsSub');
+      $('levelsBack').textContent = `← ${t('part')}`;
+
+      $('levelsGrid').innerHTML = [1, 2, 3, 4].map(number => {
+        const unlocked = isLevelUnlocked(number);
+        const score = state.levelStars[number] || 0;
+        const target = targetStars(number);
+        const status = !unlocked
+          ? `🔒 ${t('locked')}`
+          : number === 4
+            ? t('lastLevel')
+            : `${score}/${target} ⭐`;
+
+        return `
+          <button class="level-card ${unlocked ? '' : 'is-locked'}"
+                  ${unlocked ? `onclick="openLevel(${number})"` : 'disabled'}>
+            <span class="level-card-top">
+              <span class="level-icon">${unlocked ? '⚽' : '🔒'}</span>
+              <span class="level-status">${status}</span>
+            </span>
+            <strong>${t('level')} ${number}</strong>
+            <span class="level-score">${t('stars')}: ${score} / 9</span>
+            <span class="mini-progress">
+              <span style="width:${Math.min(100, score / 9 * 100)}%"></span>
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    async function openLevel(number) {
+      if (!isLevelUnlocked(number)) {
+        notify(t('needStars'));
+        return;
+      }
+
+      try {
+        await loadDatabase();
+      } catch {
+        notify(t('dbError'));
+        return;
+      }
+
+      // Nyawa direset hanya ketika benar-benar berpindah level.
+      if (number !== state.level) {
+        state.lives = 3;
+      }
+      state.level = number;
+
+      if (!state.questions[number]) {
+        const candidates = state.database[String(number)] || [];
+
+        if (candidates.length < 3) {
+          notify(`${t('tooFew')} (Level ${number}: ${candidates.length})`);
+          return;
+        }
+
+        startLevel(number);
+      }
+
+      go('questions');
+    }
+
+    function startLevel(number) {
+      const candidates = [...(state.database[String(number)] || [])];
+
+      if (candidates.length < 3) {
+        notify(t('tooFew'));
+        return;
+      }
+
+      state.level = number;
+
+      // Pemain awal untuk 3 pertanyaan harus berbeda.
+      shuffle(candidates);
+
+      state.questions[number] = candidates.slice(0, 3).map(source => ({
+        player: preparePlayer(source),
+        used: [],
+        stars: 0,
+        bestStars: 0,
+        answered: false,
+        locked: false,
+        history: [source.name]
+      }));
+
+      state.levelStars[number] = 0;
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function renderQuestions() {
+      $('questionsLevelLabel').textContent =
+        `${t('part').toUpperCase()} ${state.part} · ${t('level').toUpperCase()} ${state.level}`;
+      $('questionsTitle').textContent = t('questions');
+      $('questionsSubtitle').textContent = t('questionsSub');
+      $('questionsBack').textContent = `← ${t('backLevels')}`;
+
+      const records = currentRecords();
+      const score = state.levelStars[state.level] || 0;
+      const target = targetStars(state.level);
+
+      $('progressLabel').textContent = t('starsLevel');
+      $('progressStars').textContent = `⭐ ${score} / 9`;
+      $('progressBar').style.width = `${Math.min(100, score / 9 * 100)}%`;
+
+      $('progressTarget').textContent = state.level === 4
+        ? t('lastLevel')
+        : `${t('target')}: ${target} ⭐`;
+
+      $('questionsGrid').innerHTML = records.map((record, index) => {
+        let status = t('notPlayed');
+        let icon = '▶';
+        let className = '';
+
+        if (record.locked) {
+          status = t('lockedReason');
+          icon = '🔒';
+          className = 'question-locked';
+        } else if (record.answered) {
+          status = `${t('completed')} · ⭐ ${record.bestStars}`;
+          icon = '✓';
+          className = 'question-completed';
+        }
+
+        return `
+          <button class="question-card ${className}"
+                  onclick="startQuestion(${index})">
+            <span class="question-card-icon">${icon}</span>
+            <strong>${t('question')} ${index + 1}</strong>
+            <span class="question-status">${status}</span>
+            <span class="question-card-footer">
+              ${record.answered ? `⭐ ${record.bestStars}` : t('start')}
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      if (records.length && records.every(record => record.answered)) {
+        const score = state.levelStars[state.level] || 0;
+        const target = targetStars(state.level);
+
+        if (state.level < 4 && score >= target) {
+          state.unlocked[state.level + 1] = true;
+          notify(
+            `${t('level')} ${state.level + 1} ${t('available')}!`
+          );
+        }
+      }
+    }
+
+    function startQuestion(index) {
+      const record = currentRecords()[index];
+      if (!record) return;
+
+      if (record.answered) {
+        // Mengulang pertanyaan yang selesai: pilih pemain baru.
+        assignPlayer(index, record.player.name);
+      }
+
+      record.locked = false;
+      state.questionIndex = index;
+      // Nyawa tetap terbawa antarpertanyaan dalam level yang sama.
+      state.used = record.used;
+      state.stars = record.stars;
+      state.player = record.player;
+      state.answered = record.answered;
+      state.bonusUsed = [false, false];
+
+      renderGame();
+      go('game');
+      $('answerInput').focus();
+    }
+
+    function assignPlayer(index, previousName) {
+      const record = currentRecords()[index];
+      const candidates = state.database[String(state.level)] || [];
+      const excluded = new Set(record.history || []);
+      excluded.add(previousName);
+
+      currentRecords().forEach((other, otherIndex) => {
+        if (otherIndex !== index && other.player) {
+          excluded.add(other.player.name);
+        }
+      });
+
+      let pool = candidates.filter(candidate =>
+        !excluded.has(candidate.name)
+      );
+
+      if (!pool.length) {
+        pool = candidates.filter(candidate =>
+          candidate.name !== previousName
+        );
+      }
+
+      if (!pool.length) {
+        // Jika tidak ada kandidat baru yang belum dipakai, izinkan kandidat
+        // lain yang berbeda dari pemain sebelumnya bila tersedia.
+        pool = candidates.filter(candidate =>
+          candidate.name !== previousName
+        );
+      }
+
+      if (!pool.length) {
+        notify('Tidak ada kandidat pemain berbeda yang tersedia.');
+        return false;
+      }
+
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+
+      record.player = preparePlayer(chosen);
+      record.history = [...new Set([
+        ...(record.history || []),
+        previousName,
+        chosen.name
+      ].filter(Boolean))];
+
+      record.used = [];
+      record.stars = 0;
+      record.answered = false;
+      record.locked = false;
+      return true;
+    }
+
+    function renderGame() {
+      const record = currentRecords()[state.questionIndex];
+
+      state.player = record.player;
+      state.used = record.used;
+      state.stars = record.stars;
+      state.answered = record.answered;
+
+      $('gameLabel').textContent =
+        `${t('part').toUpperCase()} ${state.part} · ${t('level').toUpperCase()} ${state.level}`;
+      $('questionNo').textContent =
+        `${t('question')} ${state.questionIndex + 1} / 3`;
+      $('clueTitle').textContent = t('clues');
+      $('clueHelp').textContent = t('clueHelp');
+      $('answerTitle').textContent = t('who');
+      $('answerSubtitle').textContent = t('answerSub');
+      $('livesLabel').textContent = t('lives');
+      $('starsLabel').textContent = t('stars');
+      $('nameLabel').textContent = t('name');
+      $('answerInput').placeholder = t('placeholder');
+      $('checkBtn').textContent = t('check');
+      $('nextClueBtn').textContent = t('nextClue');
+      $('bonusBtn').textContent = state.lang === 'en'
+        ? '🌍 Bonus Clue 1 (-1 life)'
+        : '🌍 Petunjuk Bonus 1 (-1 nyawa)';
+      $('bonus2Btn').textContent = state.lang === 'en'
+        ? '💡 Bonus Clue 2 (-1 life)'
+        : '💡 Petunjuk Bonus 2 (-1 nyawa)';
+      $('backToQuestions').textContent = `← ${t('backLevels')}`;
+
+      $('answerInput').value = '';
+      $('livesDisplay').textContent = hearts(state.lives);
+      $('starsDisplay').textContent = `⭐ ${state.stars}`;
+      $('clueCounter').textContent =
+        `${state.used.length} / ${state.player.clues.length}`;
+
+      $('gameClues').innerHTML = Array.from(
+        { length: 9 },
+        (_, index) => {
+          const clue = state.player.clues[index] || '';
+          const opened = state.used.includes(index);
+
+          return `
+            <button type="button"
+                    class="clue-card ${opened ? 'clue-open' : ''}"
+                    onclick="revealClue(${index})"
+                    ${state.answered || opened || !clue ? 'disabled' : ''}>
+              <span class="clue-card-inner">
+                <span class="clue-front">
+                  <span class="clue-number">${index + 1}</span>
+                </span>
+                <span class="clue-back">${escapeHTML(clue)}</span>
+              </span>
+            </button>
+          `;
+        }
+      ).join('');
+
+      $('feedback').textContent = '';
+      $('feedback').className = 'feedback';
+      updateGameButtons();
+    }
+
+    function hearts(number) {
+      return number > 0 ? '❤️ '.repeat(number).trim() : '—';
+    }
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+    }
+
+    function updateGameButtons() {
+      $('checkBtn').disabled = state.answered;
+      $('answerInput').disabled = state.answered;
+      $('nextClueBtn').disabled =
+        state.answered ||
+        state.used.length >= Math.min(9, state.player.clues.length);
+      $('bonusBtn').disabled = state.answered || state.bonusUsed[0];
+      $('bonus2Btn').disabled = state.answered || state.bonusUsed[1];
+    }
+
+    function revealClue(index) {
+      if (state.answered || state.used.includes(index)) return;
+      if (!state.player.clues[index]) return;
+
+      state.used.push(index);
+      state.stars = state.used.length <= 3
+        ? 3
+        : state.used.length <= 6
+          ? 2
+          : 1;
+
+      const record = currentRecords()[state.questionIndex];
+      record.used = state.used;
+      record.stars = state.stars;
+
+      renderGame();
+    }
+
+    function nextClue() {
+      const next = state.player.clues.findIndex((clue, index) =>
+        clue && !state.used.includes(index)
+      );
+
+      if (next < 0) {
+        notify(t('noClues'));
+        return;
+      }
+
+      revealClue(next);
+    }
+
+    function bonusClue(number = 1) {
+      const index = number - 1;
+      if (state.answered || state.bonusUsed[index]) return;
+
+      // Setiap bonus hanya bisa digunakan sekali dan mengurangi satu nyawa.
+      state.bonusUsed[index] = true;
+      state.lives--;
+      triggerDamageEffect();
+      $('livesDisplay').textContent = hearts(state.lives);
+
+      if (state.lives <= 0) {
+        handleLivesOut();
+        return;
+      }
+
+      const note = document.createElement('div');
+      note.className = 'bonus-note';
+
+      if (number === 1) {
+        const country = state.player.country || '';
+        note.textContent = country
+          ? `${t('bonusCountry')}: ${country}`
+          : t('noCountry');
+      } else {
+        const clue = state.lang === 'en'
+          ? (state.player.bonus2_en || '')
+          : (state.player.bonus2_id || '');
+        note.textContent = clue || (state.lang === 'en'
+          ? 'Second bonus clue has not been filled in.'
+          : 'Petunjuk bonus kedua belum diisi.');
+      }
+
+      $('gameClues').appendChild(note);
+      updateGameButtons();
+    }
+
+    $('answerForm').addEventListener('submit', event => {
+      event.preventDefault();
+      if (state.answered) return;
+
+      const input = normalizeAnswer($('answerInput').value);
+
+      if (!input) {
+        showFeedback(t('empty'), 'error');
+        return;
+      }
+
+      const player = state.player;
+      const acceptedAnswers = [
+        player.name,
+        player.answer_name,
+        ...(player.aliases || [])
+      ].filter(Boolean);
+
+      const correct = acceptedAnswers.some(name =>
+        normalizeAnswer(name) === input
+      );
+
+      if (correct) {
+        handleCorrectAnswer();
+      } else {
+        state.lives--;
+        triggerDamageEffect();
+        $('livesDisplay').textContent = hearts(state.lives);
+        showFeedback(t('wrong'), 'error');
+
+        if (state.lives <= 0) {
+          handleLivesOut();
+        } else {
+          $('answerInput').value = '';
+          $('answerInput').focus();
+        }
+      }
+    });
+
+    function normalizeAnswer(value) {
+      return String(value || '')
+        .normalize('NFKC')
+        .toLocaleLowerCase()
+        .trim()
+        .replace(/\s+/g, '')
+        .replace(/[.'’_-]/g, '');
+    }
+
+    function handleCorrectAnswer() {
+      state.answered = true;
+
+      const record = currentRecords()[state.questionIndex];
+
+      // Bonus tidak dihitung sebagai petunjuk utama. Jika pemain memakai
+      // bonus tanpa membuka petunjuk utama, jawaban benar tetap bernilai 3.
+      const usedMainClues = state.used.length;
+      const bonusWasUsed = state.bonusUsed.some(Boolean);
+      const awardedStars = usedMainClues === 0
+        ? (bonusWasUsed ? 3 : 0)
+        : usedMainClues <= 3
+          ? 3
+          : usedMainClues <= 6
+            ? 2
+            : usedMainClues <= 9
+              ? 1
+              : 0;
+
+      state.stars = awardedStars;
+      record.answered = true;
+      record.locked = false;
+      record.used = state.used;
+      record.stars = awardedStars;
+      record.bestStars = Math.max(
+        record.bestStars || 0,
+        awardedStars
+      );
+
+      state.bestStars[`${state.level}-${state.questionIndex}`] =
+        record.bestStars;
+
+      state.levelStars[state.level] = currentRecords().reduce(
+        (total, item) => total + (item.bestStars || 0),
+        0
+      );
+
+      if (
+        currentRecords().every(item => item.answered) &&
+        state.level < 4 &&
+        state.levelStars[state.level] >= targetStars(state.level)
+      ) {
+        state.unlocked[state.level + 1] = true;
+      }
+
+      $('winTitle').textContent = t('correct');
+      $('winDescription').textContent = t('correctDescription');
+      $('winName').textContent =
+        record.player.name || record.player.fullName || record.player.answer_name;
+      $('earnedStars').textContent = `⭐ ${state.stars} ${t('stars').toLowerCase()}`;
+      $('continueBtn').textContent = t('continue');
+
+      $('winModal').classList.add('show');
+      launchConfetti();
+      updateGameButtons();
+    }
+
+    function launchConfetti() {
+      const layer = $('confettiLayer');
+      if (!layer) return;
+
+      layer.innerHTML = '';
+      layer.classList.add('active');
+
+      const totalPieces = 150;
+      for (let i = 0; i < totalPieces; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.width = `${6 + Math.random() * 8}px`;
+        piece.style.height = `${9 + Math.random() * 12}px`;
+        piece.style.setProperty('--fall-duration', `${2.2 + Math.random() * 2.2}s`);
+        piece.style.setProperty('--fall-delay', `${Math.random() * 0.8}s`);
+        piece.style.setProperty('--drift', `${Math.random() * 240 - 120}px`);
+        piece.style.setProperty('--spin', `${360 + Math.random() * 1080}deg`);
+        layer.appendChild(piece);
+      }
+
+      setTimeout(() => {
+        layer.classList.remove('active');
+        layer.innerHTML = '';
+      }, 6000);
+    }
+
+    function triggerDamageEffect() {
+      const flash = $('damageFlash');
+      if (flash) {
+        flash.classList.remove('active');
+        void flash.offsetWidth;
+        flash.classList.add('active');
+        setTimeout(() => flash.classList.remove('active'), 450);
+      }
+
+      document.body.classList.remove('damage-shake');
+      void document.body.offsetWidth;
+      document.body.classList.add('damage-shake');
+      setTimeout(() => document.body.classList.remove('damage-shake'), 350);
+    }
+
+    function showFeedback(message, type) {
+      $('feedback').textContent = message;
+      $('feedback').className = `feedback ${type || ''}`;
+    }
+
+    function handleLivesOut() {
+      const records = currentRecords();
+      const activeIndex = state.questionIndex;
+      const activeRecord = records[activeIndex];
+
+      if (!activeRecord) {
+        state.lives = 3;
+        go('questions');
+        return;
+      }
+
+      // Pertanyaan aktif selalu direset dan dikunci.
+      const activeOldName = activeRecord.player?.name || '';
+      assignPlayer(activeIndex, activeOldName);
+      activeRecord.answered = false;
+      activeRecord.locked = true;
+      activeRecord.stars = 0;
+      activeRecord.bestStars = 0;
+      activeRecord.used = [];
+
+      // Tepat satu pertanyaan lain yang sebelumnya sudah dijawab dipilih
+      // secara acak untuk direset. Pertanyaan aktif tidak ikut undian.
+      const completedOthers = records
+        .map((record, index) => ({ record, index }))
+        .filter(item =>
+          item.index !== activeIndex && item.record.answered
+        );
+
+      if (completedOthers.length > 0) {
+        const target = completedOthers[
+          Math.floor(Math.random() * completedOthers.length)
+        ];
+        const targetOldName = target.record.player?.name || '';
+
+        assignPlayer(target.index, targetOldName);
+        target.record.answered = false;
+        target.record.locked = true;
+        target.record.stars = 0;
+        target.record.bestStars = 0;
+        target.record.used = [];
+      }
+
+      // Hitung ulang total bintang hanya dari pertanyaan yang masih selesai.
+      state.levelStars[state.level] = records.reduce(
+        (total, record) => total + (record.bestStars || 0),
+        0
+      );
+
+      if (
+        state.level < 4 &&
+        state.levelStars[state.level] < targetStars(state.level)
+      ) {
+        state.unlocked[state.level + 1] = false;
+      }
+
+      state.lives = 3;
+      state.used = [];
+      state.stars = 0;
+      state.answered = false;
+      state.bonusUsed = [false, false];
+
+      $('winModal').classList.remove('show');
+      $('livesDisplay').textContent = hearts(3);
+      notify(t('lockedReason'));
+      go('questions');
+    }
+
+    $('continueBtn').addEventListener('click', () => {
+      $('winModal').classList.remove('show');
+      go('questions');
+    });
+
+    $('backToQuestions').addEventListener('click', () => {
+      go('questions');
+    });
+
+    $('nextClueBtn').addEventListener('click', nextClue);
+    $('bonusBtn').addEventListener('click', () => bonusClue(1));
+    $('bonus2Btn').addEventListener('click', () => bonusClue(2));
+
+    document.addEventListener('keydown', event => {
+      if (
+        event.key === 'Enter' &&
+        $('winModal').classList.contains('show')
+      ) {
+        event.preventDefault();
+        $('continueBtn').click();
+      }
+    });
+
+    // Memuat database saat halaman dibuka, tetapi pengguna tetap dapat
+    // memilih bahasa sebelum masuk ke permainan.
+    loadDatabase().catch(error => {
+      console.warn('Database belum siap:', error.message);
+    });
+
+    renderParts();
+  </script>
+</body>
+</html>

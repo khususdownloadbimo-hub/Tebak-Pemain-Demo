@@ -1,0 +1,371 @@
+
+{
+  "schema_version": "1.0.0",
+  "language_matching": "id",
+  "matching_rules": {
+    "normalization": [
+      "lowercase",
+      "trim",
+      "collapse_whitespace",
+      "normalize_unicode"
+    ],
+    "priority": "highest_first",
+    "fallback_asset": "icon-generic-clue"
+  },
+  "rules": [
+    {
+      "rule_id": "KW01",
+      "keyword": "Lahir di",
+      "patterns": ["lahir di"],
+      "asset_id": "icon-baby",
+      "fallback_icon": "baby",
+      "priority": 100
+    },
+    {
+      "rule_id": "KW02",
+      "keyword": "Pernah bermain di [nama_klub]",
+      "patterns": [
+        "pernah bermain di",
+        "bermain untuk",
+        "pernah membela"
+      ],
+      "asset_id": "entity-club",
+      "fallback_icon": "shield",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW03",
+      "keyword": "Pernah dilatih oleh [nama_pelatih]",
+      "patterns": ["pernah dilatih oleh", "dilatih oleh"],
+      "asset_id": "entity-coach",
+      "fallback_icon": "user-round",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW04",
+      "keyword": "Ballon d'Or",
+      "patterns": ["ballon d'or", "ballon dor", "ballon d’or"],
+      "asset_id": "icon-ballon-dor",
+      "fallback_icon": "award",
+      "priority": 100
+    },
+    {
+      "rule_id": "KW05",
+      "keyword": "Juara Liga",
+      "patterns": ["juara liga"],
+      "asset_id": "icon-title-celebration",
+      "fallback_icon": "trophy",
+      "priority": 60
+    },
+    {
+      "rule_id": "KW06",
+      "keyword": "Piala Dunia",
+      "patterns": ["piala dunia"],
+      "asset_id": "entity-world-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW07",
+      "keyword": "gelandang bertahan",
+      "patterns": ["gelandang bertahan", "defensive midfielder"],
+      "asset_id": "icon-defensive-midfielder",
+      "fallback_icon": "bucket",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW08",
+      "keyword": "Penyerang",
+      "patterns": [
+        "penyerang",
+        "striker",
+        "centre-forward",
+        "center-forward"
+      ],
+      "asset_id": "icon-striker",
+      "fallback_icon": "target",
+      "priority": 80
+    },
+    {
+      "rule_id": "KW09",
+      "keyword": "gelandang serang",
+      "patterns": ["gelandang serang", "attacking midfielder"],
+      "asset_id": "icon-attacking-midfielder",
+      "fallback_icon": "lightbulb",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW10",
+      "keyword": "winger",
+      "patterns": ["winger", "pemain sayap"],
+      "asset_id": "icon-winger",
+      "fallback_icon": "dribble",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW11",
+      "keyword": "bek sayap",
+      "patterns": [
+        "bek sayap",
+        "full-back",
+        "fullback",
+        "wing-back",
+        "wingback"
+      ],
+      "asset_id": "icon-fullback",
+      "fallback_icon": "crosshair",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW12",
+      "keyword": "bek tengah",
+      "patterns": [
+        "bek tengah",
+        "centre-back",
+        "center-back",
+        "central defender"
+      ],
+      "asset_id": "icon-centre-back",
+      "fallback_icon": "wall",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW13",
+      "keyword": "kiper",
+      "patterns": [
+        "kiper",
+        "penjaga gawang",
+        "goalkeeper"
+      ],
+      "asset_id": "icon-goalkeeper",
+      "fallback_icon": "hand",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW14",
+      "keyword": "Juara Piala",
+      "patterns": ["juara piala"],
+      "asset_id": "icon-title-celebration",
+      "fallback_icon": "trophy",
+      "priority": 55
+    },
+    {
+      "rule_id": "KW15",
+      "keyword": "Juara FA",
+      "patterns": ["fa cup"],
+      "asset_id": "entity-fa-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW16",
+      "keyword": "Del Rey",
+      "patterns": ["copa del rey", "del rey"],
+      "asset_id": "entity-copa-del-rey",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW17",
+      "keyword": "Antar Klub",
+      "patterns": [
+        "piala dunia antarklub",
+        "piala dunia antar klub",
+        "club world cup",
+        "intercontinental cup"
+      ],
+      "asset_id": "entity-club-world-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW18",
+      "keyword": "Carabao",
+      "patterns": ["carabao cup"],
+      "asset_id": "entity-carabao-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW19",
+      "keyword": "Europa",
+      "patterns": ["europa league", "liga europa"],
+      "asset_id": "entity-europa-league",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW20",
+      "keyword": "Champions",
+      "patterns": [
+        "liga champions",
+        "champions league",
+        "uefa champions league"
+      ],
+      "asset_id": "entity-champions-league",
+      "fallback_icon": "trophy",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW21",
+      "keyword": "Asia",
+      "patterns": ["piala asia", "afc asian cup"],
+      "asset_id": "entity-asian-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW22",
+      "keyword": "Asean",
+      "patterns": [
+        "piala asean",
+        "asean championship",
+        "aff championship",
+        "aff cup"
+      ],
+      "asset_id": "entity-asean-cup",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW23",
+      "keyword": "Euro",
+      "patterns": [
+        "juara euro",
+        "uefa euro",
+        "european championship"
+      ],
+      "asset_id": "entity-euro",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW24",
+      "keyword": "Copa America",
+      "patterns": ["copa america", "copa américa"],
+      "asset_id": "entity-copa-america",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW25",
+      "keyword": "Kaki",
+      "patterns": [
+        "kaki terkuat",
+        "kaki dominan",
+        "left-footed",
+        "right-footed",
+        "strongest foot"
+      ],
+      "asset_id": "icon-foot",
+      "fallback_icon": "footprints",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW26",
+      "keyword": "Piala Afrika",
+      "patterns": [
+        "piala afrika",
+        "africa cup of nations",
+        "afcon"
+      ],
+      "asset_id": "entity-afcon",
+      "fallback_icon": "trophy",
+      "priority": 85
+    },
+    {
+      "rule_id": "KW27",
+      "keyword": "World Cup",
+      "patterns": [
+        "pemain terbaik fifa world cup",
+        "golden ball",
+        "best player at the world cup"
+      ],
+      "asset_id": "entity-world-cup-award",
+      "fallback_icon": "award",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW28",
+      "keyword": "Top Scorer",
+      "patterns": [
+        "top scorer",
+        "pencetak gol terbanyak",
+        "top goalscorer"
+      ],
+      "asset_id": "icon-golden-boot",
+      "fallback_icon": "medal",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW29",
+      "keyword": "Asean Cup",
+      "patterns": [
+        "pemain terbaik fifa asean cup",
+        "asean cup best player"
+      ],
+      "asset_id": "entity-asean-cup-award",
+      "fallback_icon": "award",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW30",
+      "keyword": "terbaik Euro",
+      "patterns": [
+        "pemain terbaik euro",
+        "player of the tournament at euro",
+        "euro player of the tournament"
+      ],
+      "asset_id": "entity-euro-award",
+      "fallback_icon": "award",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW31",
+      "keyword": "terbaik Afrika",
+      "patterns": [
+        "pemain terbaik afrika",
+        "african player of the year",
+        "caf african player"
+      ],
+      "asset_id": "entity-africa-award",
+      "fallback_icon": "award",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW32",
+      "keyword": "terbaik Copa",
+      "patterns": [
+        "pemain terbaik copa america",
+        "copa america best player"
+      ],
+      "asset_id": "entity-copa-america-award",
+      "fallback_icon": "award",
+      "priority": 95
+    },
+    {
+      "rule_id": "KW33",
+      "keyword": "Pemain Muda",
+      "patterns": [
+        "pemain muda terbaik",
+        "best young player",
+        "young player of the tournament"
+      ],
+      "asset_id": "icon-young-player-award",
+      "fallback_icon": "award",
+      "priority": 90
+    },
+    {
+      "rule_id": "KW34",
+      "keyword": "Clean Sheet",
+      "patterns": ["clean sheet", "clean sheets", "nirbobol"],
+      "asset_id": "icon-clean-sheet",
+      "fallback_icon": "hand",
+      "priority": 90
+    }
+  ],
+  "fallback": {
+    "asset_id": "icon-generic-clue",
+    "icon": "lightbulb"
+  }
+}
